@@ -1,0 +1,60 @@
+// Interfacing with MASTER NODE
+
+    127.0.0.1:8001
+
+    "LOOK row_key\r\n"
+        - "tabserver_addr\r\n"
+        
+    - "-ERR invalid request\r\n"
+
+
+// Interfacing with ADMIN CONSOLE
+
+    127.0.0.1:8002
+
+    "KILL tabserver_addr\r\n"
+        - "-ERR cannot kill tablet server; disconnected\r\n"
+        - "-ERR cannot kill tablet server; already killed\r\n"
+        - "+OK KILL request forwarded to tablet serve\r\n"
+        - "-ERR cannot identify tablet server\r\n"
+
+    "REST tabserver_addr\r\n"
+        - "-ERR cannot restart tablet server; not yet killed\r\n"
+        - "+OK REST request forwarded to tablet server\r\n"
+        - "-ERR cannot identify tablet server\r\n"
+
+    "STAT\r\n"
+        - "tabserver_addr1=0 tabserver_addr2=1 \r\n"
+
+    - "-ERR invalid request\r\n"
+
+
+// Interfacing with TABSERVER
+
+    tabserver_addr
+
+    "GET row_key col_key\r\n"
+        - "+OK data_size\r\n"
+          "data"
+        - "-ERR cannot find data; nonexistent\r\n"
+
+    "PUT row_key col_key data_size\r\n"
+    "data"
+        - "+OK PUT request succeeded\r\n"
+        - "+OK request forwarded to primary\r\n"
+        - "-ERR PUT request failed\r\n"
+
+    "CPUT row_key col_key data_1_size data_2_size\r\n"
+    "data_1"
+    "data_2"
+        - "+OK CPUT request succeeded\r\n"
+        - "+OK request forwarded to primary\r\n"
+        - "-ERR CPUT request failed\r\n"
+
+    "DELE row_key col_key\r\n"
+        - "+OK DELE request succeeded\r\n"
+        - "+OK request forwarded to primary\r\n"
+        - "-ERR DELE request failed\r\n"
+
+    - "-ERR cannot find data; incorrect cluster\r\n"
+    - "-ERR invalid request\r\n"

@@ -1,0 +1,154 @@
+EMAIL
+1. Get email
+    GET /api/mail
+    return json
+    [{
+      "content": <content>,
+      "sender": <sender address>,
+      "id": <id>,
+      "timestamp": <time>
+    }, ...]
+
+2. Send email
+    POST /api/mail
+    body: 
+    {
+      "address": <recipient>,
+      "subject": <subject>,
+      "message": <content>
+    }
+
+3. Delete email
+    DELETE /api/mail/<id>
+
+STORAGE
+1. Upload file
+    POST /api/storage<path>?type=file&filename=<name>
+    body: binary file content
+
+2. Download/read file
+    GET /api/storage<path>?type=file
+    return binary
+
+3. Create folder
+    POST /api/storage<path>?type=folder&filename=<filename>
+
+4. List files in folder
+    GET /api/storage<path>?type=folder
+    return json
+    [{
+      "filename": <filename>,
+      "hash": <hash>
+    }, ...]
+
+5 Delete file or folder
+    Note: delete folder must end with /
+    DELETE /api/storage<path>
+
+6. Rename file
+    PUT /api/storage
+    body:
+    {
+      "type": "file",
+      "method": "rename",
+      "from": <file_path>
+      "to": <file_parent_folder_path>,
+      "newName": <new_name>
+    }
+
+7. Rename folder
+    PUT /api/storage
+    body:
+    {
+      "type": "folder",
+      "method": "rename",
+      "from": <folder_path>
+      "to": <folder_parent_folder_path>,
+      "newName": <new_name>
+    }
+
+8. Move file
+    PUT /api/storage
+    body:
+    {
+      "type": "file",
+      "method": "move",
+      "from": <file_path>
+      "to": <file_parent_folder_path>,
+      "newName": <original_filename>
+    }
+
+9. Move folder
+    PUT /api/storage
+    body:
+    {
+      "type": "folder",
+      "method": "move",
+      "from": <file_folder>
+      "to": <folder_parent_folder_path>,
+      "newName": <original_foldername>
+    }
+
+ADMIN
+1. Get all backend nodes' address and status
+    GET /api/admin/nodes
+    return [{"addr": <address>, "stat": <true/false>}]
+
+2. Get all frontend nodes' address and status
+    GET /api/admin/frontendnodes
+    return [{"addr": <address>, "load": <load>}]
+
+3. Get a node's rows and cols
+    PUT /api/admin/node
+    body:
+    {
+      "addr": <address>
+    }
+    return [{"row": <row>, "col": <col>}]
+
+4. Get raw data from a node
+    PUT /api/admin/raw
+    body:
+    {
+      "addr": <address>
+    }
+    return binary data
+
+5. Kill a backend node
+    PUT /api/admin/kill
+    body:
+    {
+      "addr": <address>
+    }
+
+6. Restart a backend node
+    PUT /api/admin/rest
+    body:
+    {
+      "addr": <address>
+    }
+
+USER:
+1. signup
+    POST /api/user/signup
+    body:
+    {
+      "username": <username>,
+      "password": <password>
+    }
+
+2. login
+    POST /api/user/login
+    body:
+    {
+      "username": <username>,
+      "password": <password>
+    }
+
+3. change password
+    PUT /api/user
+    body:
+    {
+      "username": <username>,
+      "password": <password>
+    }
