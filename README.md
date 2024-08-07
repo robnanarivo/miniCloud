@@ -10,4 +10,5 @@ Our implementation is fully distributed, load balanced, and fault tolerant. It a
 
 # How to Run
 Run `start_service.sh` to start the cloud platform.
+
 Run `stop_service.sh` to stop the cloud platfor
